@@ -1,17 +1,19 @@
 package org.example.springboot01.service;
 
 // Importaciones necesarias para trabajar con Jackson y Spring
+
 import com.fasterxml.jackson.core.JsonProcessingException; // Para manejar errores de procesamiento de JSON
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper; // Para convertir JSON a objetos y viceversa
-import org.example.springboot01.dto.CaratulasDto; // DTO para carátulas
-import org.example.springboot01.dto.DirectorDto; // DTO para directores
-import org.example.springboot01.dto.VentasDto; // DTO para ventas
+import org.example.springboot01.dto.*;
 import org.example.springboot01.entity.*; // Importación de todas las entidades del paquete
 import org.example.springboot01.repository.*; // Importación de todos los repositorios
 import org.springframework.beans.factory.annotation.Autowired; // Para la inyección de dependencias
 import org.springframework.stereotype.Service; // Anotación para marcar como servicio
 
 import java.time.LocalDate; // Para trabajar con fechas
+import java.util.Date;
+import java.util.List;
 import java.util.Optional; // Para manejar valores opcionales
 
 // Anotación para indicar que esta clase es un servicio de Spring
@@ -47,7 +49,7 @@ public class SpringService {
     }
 
     // Método para insertar un nuevo actor en la base de datos
-    public String insertarBaseDatos2(long idPelicula, String nombre, String apellido, LocalDate nacimiento, int edad) {
+    public String insertarBaseDatos2(long idPelicula, String nombre, String apellido, Date nacimiento, int edad) {
 
         Actores actores = new Actores();
         actores.setIdPelicula(idPelicula);
@@ -114,8 +116,139 @@ public class SpringService {
 
     }
 
-    public Pelicula getPelicula (long idPelicula) {
+    public Pelicula getPelicula(long idPelicula) {
         Optional<Pelicula> opt = pelicularepository.findById(idPelicula);
         return opt.orElse(null);
     }
+
+    public String getPelicula2(long idPelicula, String nombre) {
+
+        if (nombre == null) {
+            Optional<Pelicula> opt = pelicularepository.findById(idPelicula);
+            if (opt.isPresent()) {
+                return opt.get().toString();
+            } else {
+                return "No se ha encontrado en la base de datos";
+            }
+        } else {
+            List<Pelicula> list = pelicularepository.findByNombre(nombre);
+            if (list.isEmpty()) {
+                return "No se ha encontrado en la base de datos";
+            } else {
+                return list.toString();
+            }
+        }
+
+    }
+
+    public Actores getActor(long idActores) {
+        Optional<Actores> opt = actoresrepository.findById(idActores);
+        return opt.orElse(null);
+    }
+
+    public Ventas getVentas(long idVentas) {
+        Optional<Ventas> opt = ventasrepository.findById(idVentas);
+        return opt.orElse(null);
+    }
+
+    public Director getDirector(long idDirector) {
+        Optional<Director> opt = directoresrepository.findById(idDirector);
+        return opt.orElse(null);
+    }
+
+    public String eliminarPelicula(long idPelicula) {
+        pelicularepository.deleteById(idPelicula);
+        return "La pelicula se ha eliminado correctamente.";
+    }
+
+    public String eliminarActor(long idActor) {
+        pelicularepository.deleteById(idActor);
+        return "El actor se ha eliminado correctamente.";
+    }
+
+
+    public String updatePelicula(long idPelicula, String json) {
+        Pelicula p1 = getPelicula(idPelicula);
+        PeliculaDto edit;
+        if (p1 != null) {
+            try {
+                edit = objectMapper.readValue(json, PeliculaDto.class);
+                p1.setNombre(edit.getNombre());
+                p1.setDuracion(edit.getDuracion());
+                p1.setTipoPelicula(edit.getTipoPelicula());
+                pelicularepository.save(p1);
+                return "Película editada correctamente";
+            } catch (JsonMappingException e) {
+                throw new RuntimeException(e);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            return "No se ha editado la película";
+        }
+    }
+
+    public String updateActores(long idActores, String json) {
+        Actores a1 = getActor(idActores);
+        ActoresDto edit;
+        if (a1 != null) {
+            try {
+                edit = objectMapper.readValue(json, ActoresDto.class);
+                a1.setNombre(edit.getNombre());
+                a1.setApellido(edit.getApellido());
+                a1.setNacimiento(edit.getNacimiento());
+                a1.setEdad(edit.getEdad());
+                actoresrepository.save(a1);
+                return "Actor guardado correctamente";
+            } catch (JsonMappingException e) {
+                throw new RuntimeException(e);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            return "No se ha editado el actor";
+        }
+    }
+
+    public String updateVentas(long idVentas, String json) {
+        Ventas v1 = getVentas(idVentas);
+        VentasDto edit;
+        if (v1 != null) {
+            try {
+                edit = objectMapper.readValue(json, VentasDto.class);
+                v1.setNumventa(edit.getNumventa());
+                ventasrepository.save(v1);
+                return "Venta guardada correctamente";
+            } catch (JsonMappingException e) {
+                throw new RuntimeException(e);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            return "No se ha editado la venta";
+        }
+    }
+
+    public String updateDirector(long idDirector, String json) {
+        Director d1 = getDirector(idDirector);
+        DirectorDto edit;
+        if (d1 != null) {
+            try {
+                edit = objectMapper.readValue(json, DirectorDto.class);
+                d1.setNombre(edit.getNombre());
+                d1.setApellido(edit.getApellido());
+                d1.setNacimiento(edit.getNacimiento());
+                d1.setEdad(edit.getEdad());
+                directoresrepository.save(d1);
+                return "Director guardado correctamente";
+            } catch (JsonMappingException e) {
+                throw new RuntimeException(e);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            return "No se ha editado el director";
+        }
+    }
+
 }

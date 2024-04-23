@@ -1,6 +1,7 @@
 package org.example.springboot01.entity;
 
 // Importaciones necesarias para JPA y Lombok
+
 import jakarta.persistence.*; // Anotaciones de JPA para la persistencia y el mapeo de entidades
 import lombok.AllArgsConstructor; // Para el constructor con todos los campos
 import lombok.Data; // Para generación automática de getters, setters, equals, hashCode, etc.

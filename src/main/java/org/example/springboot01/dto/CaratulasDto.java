@@ -1,6 +1,7 @@
 package org.example.springboot01.dto;
 
 // Importamos anotaciones de Lombok para reducir el código repetitivo
+
 import lombok.AllArgsConstructor; // Crea un constructor que toma todos los parámetros
 import lombok.Data; // Genera getters, setters, equals, hashCode y toString automáticamente
 import lombok.NoArgsConstructor; // Crea un constructor sin parámetros (por defecto)
@@ -14,5 +15,5 @@ import lombok.NoArgsConstructor; // Crea un constructor sin parámetros (por def
 public class CaratulasDto {
 
     private String imagen;
-    
+
 }

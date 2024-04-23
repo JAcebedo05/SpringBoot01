@@ -12,8 +12,11 @@ import lombok.NoArgsConstructor; // Para el constructor sin argumentos
 @NoArgsConstructor
 // Anotación @AllArgsConstructor para crear un constructor que recibe todos los campos como argumentos
 @AllArgsConstructor
-public class VentasDto {
+public class PeliculaDto {
 
-    private String numventa;
+    private String nombre;
+    private double duracion;
+    private String tipoPelicula;
+
 
 }

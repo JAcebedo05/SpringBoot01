@@ -1,6 +1,7 @@
 package org.example.springboot01.repository;
 
 // Importaciones necesarias para Spring Data
+
 import org.example.springboot01.entity.Ventas; // Entidad que representa las ventas
 import org.springframework.data.repository.CrudRepository; // Para operaciones CRUD con repositorios
 

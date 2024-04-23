@@ -1,6 +1,7 @@
 package org.example.springboot01.entity;
 
 // Importaciones para JPA y Lombok
+
 import jakarta.persistence.*; // Anotaciones de JPA para mapeo de entidades
 import lombok.AllArgsConstructor; // Constructor con todos los campos
 import lombok.Data; // Para generación automática de getters, setters, equals, hashCode, etc.
@@ -27,17 +28,17 @@ public class Pelicula {
     @Id // Id de la tabla.
     @Column(name = "idPelicula")
     private long idPelicula;
-    
+
     @Column(name = "nombre")
     private String nombre;
-    
+
     @Column(name = "duracion")
     private double duracion;
-    
+
     @CreationTimestamp
     @Column(name = "fechacreacion")
     private Date fechaCreacion;
-    
+
     @Column(name = "tipopelicula")
     private String tipoPelicula;
 

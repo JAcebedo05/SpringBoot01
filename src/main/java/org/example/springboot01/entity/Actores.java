@@ -1,12 +1,14 @@
 package org.example.springboot01.entity;
 
 // Importaciones de JPA para las anotaciones de mapeo y gestión de la persistencia
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor; // Anotación para el constructor con todos los campos
 import lombok.Data; // Anotación para la generación automática de métodos comunes (getters, setters, etc.)
 import lombok.NoArgsConstructor; // Anotación para el constructor sin argumentos
 
 import java.time.LocalDate; // Para trabajar con fechas
+import java.util.Date;
 import java.util.LinkedHashSet; // Para inicializar el conjunto de películas
 import java.util.Set; // Para representar un conjunto de elementos
 
@@ -44,7 +46,7 @@ public class Actores {
     private String apellido;
 
     @Column(name = "nacimiento")
-    private LocalDate nacimiento;
+    private Date nacimiento;
 
     @Column(name = "edad")
     private int edad;

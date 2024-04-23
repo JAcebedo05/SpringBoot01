@@ -1,6 +1,7 @@
 package org.example.springboot01.repository;
 
 // Importación de las interfaces de Spring Data
+
 import org.example.springboot01.entity.Actores; // Entidad que representa a los actores
 import org.springframework.data.repository.CrudRepository; // Para operaciones CRUD con repositorios
 

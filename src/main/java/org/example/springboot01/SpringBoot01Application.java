@@ -2,6 +2,7 @@ package org.example.springboot01;
 
 // Importamos la clase "SpringApplication" desde el paquete "org.springframework.boot"
 // Esta clase es el punto de entrada para iniciar una aplicación Spring Boot
+
 import org.springframework.boot.SpringApplication;
 
 // Importamos la anotación "@SpringBootApplication" desde el paquete "org.springframework.boot.autoconfigure"
