@@ -2,6 +2,10 @@ package org.example.springboot01.controller;
 
 // Importaciones necesarias para el controlador
 import java.util.Optional; // Para trabajar con valores opcionales
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j; // Para el registro (logging)
 import org.example.springboot01.entity.Pelicula; // Entidad Película
 import org.example.springboot01.service.SpringService; // Servicio para interactuar con la lógica de negocio
@@ -15,29 +19,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 // Anotación para habilitar el registro (logging) usando Lombok
 @Slf4j
+// Hace lo mismo que el @Autowired, poner atributos en final
+@RequiredArgsConstructor
 public class SpringControllerGet {
 
-    // Inyectamos SpringService en el controlador usando Autowired
-    @Autowired
-    private SpringService springService;
+    private final SpringService springService;
 
-    // Método que maneja las solicitudes HTTP GET para obtener detalles de una película por su ID
     @GetMapping("/verPelicula/{idpelicula}")
-    public String obtener(@PathVariable("idpelicula") Long idPelicula) {
-        // Intentamos obtener la película por su ID usando el servicio
-        Optional<Pelicula> optionalPelicula = springService.obtener(idPelicula);
-
-        // Si la película no existe, devolvemos un mensaje indicando que no se encontró
-        if (optionalPelicula.isEmpty()) {
-            return "La película con ID " + idPelicula + " no existe.";
+    public String verPelicula (@PathVariable (value = "idpelicula") long idPelicula) {
+        Pelicula p1 = springService.getPelicula(idPelicula);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(p1);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
 
-        // Si la película existe, obtenemos sus detalles
-        Pelicula pelicula = optionalPelicula.get();
-
-        // Retornamos una cadena con información básica de la película
-        return "Película: " + pelicula.getNombre()
-                + ", Duración: " + pelicula.getDuracion()
-                + ", Tipo: " + pelicula.getTipoPelicula();
     }
 }

@@ -33,10 +33,6 @@ public class SpringService {
     // Inyección de ObjectMapper para trabajar con JSON
     @Autowired
     private ObjectMapper objectMapper; // Para conversión JSON-Objeto
-    @Autowired
-    private ObjectMapper objectMapper2; // Se utiliza otro ObjectMapper para las operaciones JSON
-    @Autowired
-    private ObjectMapper objectMapper3; // Un tercer ObjectMapper para procesamiento de JSON
 
     // Método para insertar una nueva película en la base de datos
     public String insertarBaseDatos1(String nombre, Integer duracion, String tipopelicula) {
@@ -88,7 +84,7 @@ public class SpringService {
     public String insertarBaseDatos4(long idPelicula, String json) {
 
         try {
-            VentasDto ventasDto = objectMapper2.readValue(json, VentasDto.class);
+            VentasDto ventasDto = objectMapper.readValue(json, VentasDto.class);
             Ventas ventas = new Ventas();
             ventas.setIdPelicula(idPelicula);
             ventas.setNumventa(ventasDto.getNumventa());
@@ -105,7 +101,7 @@ public class SpringService {
     public String insertarBaseDatos5(long idPelicula, String json) {
 
         try {
-            CaratulasDto caratulasDto = objectMapper3.readValue(json, CaratulasDto.class);
+            CaratulasDto caratulasDto = objectMapper.readValue(json, CaratulasDto.class);
             Caratulas caratulas = new Caratulas();
             caratulas.setIdPelicula(idPelicula);
             caratulas.setImagen(caratulasDto.getImagen());
@@ -118,13 +114,8 @@ public class SpringService {
 
     }
 
-    // Inyección de dependencia para un segundo repositorio de películas
-    @Autowired
-    private Pelicularepository pelicularepository2;
-
-    // Método para obtener una película por su ID
-    public Optional<Pelicula> obtener(long idPelicula) {
-        return pelicularepository2.findById(idPelicula);
+    public Pelicula getPelicula (long idPelicula) {
+        Optional<Pelicula> opt = pelicularepository.findById(idPelicula);
+        return opt.orElse(null);
     }
-
 }
